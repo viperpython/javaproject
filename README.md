@@ -51,13 +51,13 @@ ActionListener interface is implemented to handle events from the buttons.
 
 The GUI components are:
 
-o  JTextArea: a text area where the user can enter and
+JTextArea: a text area where the user can enter and
 edit text.
 
-o  JLabel: a label that displays the number of words in
+JLabel: a label that displays the number of words in
 the text.
 
-o  JButtons: several buttons for performing different
+JButtons: several buttons for performing different
 actions such as counting words, finding text, replacing text, clearing the text
 area, opening a file, saving a file, and changing the font size.
 
@@ -69,18 +69,18 @@ the WordCounter class to execute the program.
 
 The class also contains four methods:
 
-o  findAllIndexes: a method that finds all indexes of a
+findAllIndexes: a method that finds all indexes of a
 substring in a string and returns a List of integers representing the indexes.
 
-o  actionPerformed: a method that handles events from
+actionPerformed: a method that handles events from
 the buttons. It implements different actions depending on which button is
 pressed. For example, it counts the number of words, finds and replaces text,
 clears the text area, opens a file, saves a file, and changes the font size.
 
-o  countWords: a method that counts the number of words
+countWords: a method that counts the number of words
 in a string and returns the count.
 
-o  main: the entry point of the program that creates an
+main: the entry point of the program that creates an
 instance of the WordCounter class.
 
 Overall, the code provides a basic implementation of a text editor with some useful
