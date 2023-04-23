@@ -13,17 +13,18 @@ import java.io.*;
 class WordCounter extends JFrame implements ActionListener {// declaring necessary components
 public JTextArea textArea;
 public JLabel wordCountLabel;
-public JButton countButton, findButton, replaceButton, clearButton, openButton,saveButton;
+public JButton countButton, findButton, replaceButton, clearButton, openButton,saveButton,fontSize;
 static JPanel panel = new JPanel();
 
 // constructor to initialize GUI components
 public WordCounter() {
-    super("Word Counter"); // setting title of the frame
+    super("JNotepad"); // setting title of the frame
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // setting default close operation
     setPreferredSize(new Dimension(800, 500)); // setting preferred size of the frame
 
     // initializing text area, label and buttons
     textArea = new JTextArea(10, 30);
+    textArea.setFont(new Font("Segoe UI", Font.PLAIN, 16) );
     wordCountLabel = new JLabel("Word count: 0");
     countButton = new JButton("Count");
     findButton = new JButton("Find");
@@ -31,6 +32,7 @@ public WordCounter() {
     clearButton =new JButton("clear");
     openButton = new JButton("Open");
     saveButton =new JButton("Save");
+    fontSize =new JButton("Font Size");
 
     // adding buttons and label to the panel
     panel.add(countButton);
@@ -39,6 +41,7 @@ public WordCounter() {
     panel.add(clearButton);
     panel.add(openButton);
     panel.add(saveButton);
+    panel.add(fontSize);
     panel.add(wordCountLabel);
     
     // adding panel and text area to the frame
@@ -52,6 +55,7 @@ public WordCounter() {
     clearButton.addActionListener(this);
     openButton.addActionListener(this);
     saveButton.addActionListener(this);
+    fontSize.addActionListener(this);
 
     // packing the frame and making it visible
     pack();
@@ -152,30 +156,31 @@ public void actionPerformed(ActionEvent e) {
                 
             }
         }
-        else if (e.getSource()==saveButton){
-            Object[] options = {"Existing", "New"};
-                            Icon icon = UIManager.getIcon("OptionPane.questionIcon");
+        else if (e.getSource()==saveButton){//detect save button click
+            Object[] options = {"Existing", "New(choose folder)"};//array for display options to select existing file or new file
+                            Icon icon = UIManager.getIcon("OptionPane.questionIcon");//get question icon
                             
                             // Display the prompt and get the user's choice
                             int choice = JOptionPane.showOptionDialog(null, "Choose any one of the following", "Choose", 
                                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon, options, options[0]);
                             
                             // Handle the user's choice
-                            if (choice == JOptionPane.YES_OPTION) {
+                            if (choice == JOptionPane.YES_OPTION) {//existing file
                                 
-                                JFileChooser filechoose = new JFileChooser();
-                                filechoose.setCurrentDirectory(new File(System.getProperty("user.home")));
-                                int select =filechoose.showSaveDialog(this);
-                                if(select==JFileChooser.APPROVE_OPTION){
-                                    File fileTosave = filechoose.getSelectedFile();
+                                JFileChooser filechoose = new JFileChooser();//create a filechooser object
+                                filechoose.setCurrentDirectory(new File(System.getProperty("user.home")));//set default directory to user home
+                                int select =filechoose.showSaveDialog(this);//open show dialog and store result in select variable
+                                if(select==JFileChooser.APPROVE_OPTION){//if file is selected
+                                    File fileTosave = filechoose.getSelectedFile();//file object to save savefile
                                     try {
-                                        FileOutputStream out=new FileOutputStream(fileTosave);
-                                        String saving=textArea.getText();
-                                        byte[] strToBytes = saving.getBytes();
-                                        out.write(strToBytes);
-                                        out.close();
+                                        FileOutputStream out=new FileOutputStream(fileTosave);//new outputstream for writing to filetosave variable 
+                                        String saving=textArea.getText();//get textArea text
+                                        byte[] strToBytes = saving.getBytes();//new byte array and store all the bytes in saving string
+                                        out.write(strToBytes);//writing array to file
+                                        out.close();//close stream
                                         
-                                    } catch (Exception x) {
+                                    } catch (Exception x) {//catch any error
+                                        System.out.println("error writing to file");
                                         // TODO: handle exception
                                     }
                                 }
@@ -183,42 +188,43 @@ public void actionPerformed(ActionEvent e) {
                                 
         
                             } 
-                            else if (choice == JOptionPane.NO_OPTION) {
-                                JOptionPane.showMessageDialog(this,"choose in which folder file should be created.");
-                                JFileChooser filechoose = new JFileChooser();
-                                filechoose.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                                filechoose.setCurrentDirectory(new File(System.getProperty("user.home")));
-                                int select =filechoose.showSaveDialog(this);
-                                if(select==JFileChooser.APPROVE_OPTION){
-                                    File filetocreate = filechoose.getSelectedFile();
-                                    if(filetocreate.isFile()){
+                            else if (choice == JOptionPane.NO_OPTION) {//new option is choosen
+                                // JOptionPane.showMessageDialog(this,"choose in which folder file should be created.");
+                                JFileChooser filechoose = new JFileChooser();//create a filechoose object
+                                filechoose.setDialogTitle("choose in which folder file should be created.");//set chooser title
+                                filechoose.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);//set property such that only folder can be selected
+                                filechoose.setCurrentDirectory(new File(System.getProperty("user.home")));//set default opening directory
+                                int select =filechoose.showSaveDialog(this);//open file chooser and store result in select
+                                if(select==JFileChooser.APPROVE_OPTION){//check if file is selected
+                                    File filetocreate = filechoose.getSelectedFile();//create a file object and assign selected folder
+                                    if(filetocreate.isFile()){//check is a folder or not
                                         JOptionPane.showMessageDialog(this,"please choose a folder !!!");
                                     }
                                     else{
-                                        String filename =JOptionPane.showInputDialog(this,"file name");
+                                        String filename =JOptionPane.showInputDialog(this,"file name");//input new file name
                                         // System.out.println(filetocreate.getAbsolutePath());
-                                        filename=filetocreate.getAbsolutePath()+"\\"+filename;
+                                        filename=filetocreate.getAbsolutePath()+"\\"+filename;//concat new file name to file object
                                         // System.out.println(filename);
-                                        File crfile =new File(filename);
-                                        if(crfile.exists()){
-                                            JOptionPane.showMessageDialog(this,"file already exist !!! cannot create a new file");
+                                        File crfile =new File(filename);//create a file object based on new filename
+                                        if(crfile.exists()){//if file already exists
+                                            JOptionPane.showMessageDialog(this,"file already exist !!! cannot create a new file");//show error message
                                         }
-                                        else{
+                                        else{//if not present
                                         try{
                                         
-                                        crfile.createNewFile();
-                                        FileOutputStream out=new FileOutputStream(crfile);
-                                        String saving=textArea.getText();
-                                        byte[] strToBytes = saving.getBytes();
-                                        out.write(strToBytes);
-                                        out.close();
-                                        JOptionPane.showInternalMessageDialog(this, "file succesfully saved");
+                                        crfile.createNewFile();//create new file from file object
+                                        FileOutputStream out=new FileOutputStream(crfile);//create a file output stream
+                                        String saving=textArea.getText();//get text from textarea
+                                        byte[] strToBytes = saving.getBytes();//byte array to store bystream of saving string 
+                                        out.write(strToBytes);//writing to file
+                                        out.close();//close file stream
+                                        JOptionPane.showInternalMessageDialog(this, "file succesfully saved");//show file saved
 
                                         }
                                     
                                         catch(Exception i){
-                                            JOptionPane.showMessageDialog(this,"file cannot be created");
-                                            System.out.println("file cannot be created");
+                                            JOptionPane.showMessageDialog(this,"file cannot be created");//catch any error
+                                            System.out.println(i.getStackTrace());//get error stack trace
                                         }
                                     }
 
@@ -226,9 +232,20 @@ public void actionPerformed(ActionEvent e) {
                             }
             
         }}
+        else if(e.getSource()==fontSize){//detect font size button press
+            try{
+            int FontSizeInput=Integer.parseInt(JOptionPane.showInputDialog(this, "Enter new font size"));//imput font size
+            textArea.setFont(new Font("Segoe UI",Font.PLAIN,FontSizeInput));
+            }
+            catch(Exception i){
+                JOptionPane.showMessageDialog(this,"please enter a number");//handle exception if entered number is not a number
+                System.out.println(i.getMessage());
+            }
+            
+        }
     }
 
-    public int countWords(String text) {
+    public int countWords(String text) {//method to count words in text
         text = text.trim();
         if (text.isEmpty()) {
             return 0;
