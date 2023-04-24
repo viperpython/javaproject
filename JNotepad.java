@@ -9,15 +9,15 @@ import java.util.List;
 import java.util.ArrayList;
 import java.io.*;
 
-// defining the class WordCounter and implementing ActionListener interface
-class WordCounter extends JFrame implements ActionListener {// declaring necessary components
+// defining the class JNotepad and implementing ActionListener interface
+class JNotepad extends JFrame implements ActionListener {// declaring necessary components
 public JTextArea textArea;
 public JLabel wordCountLabel;
 public JButton countButton, findButton, replaceButton, clearButton, openButton,saveButton,fontSize;
 static JPanel panel = new JPanel();
 
 // constructor to initialize GUI components
-public WordCounter() {
+public JNotepad() {
     super("JNotepad"); // setting title of the frame
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // setting default close operation
     setPreferredSize(new Dimension(800, 500)); // setting preferred size of the frame
@@ -64,7 +64,7 @@ public WordCounter() {
 
 // main method to execute the program
 public static void main(String[] args) {
-    new WordCounter();
+    new JNotepad();
 }
 
 // method to find all indexes of a substring in a string
