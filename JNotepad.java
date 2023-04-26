@@ -6,6 +6,7 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
 import java.util.List;
+// import java.util.Random;
 import java.util.ArrayList;
 import java.io.*;
 
@@ -110,6 +111,15 @@ public void actionPerformed(ActionEvent e) {
                     
                 } else {
                     JOptionPane.showMessageDialog(this, "Text not found.");//show this if no matching text was found 
+                    try{
+                        // String video[] = {"test1.mp4","test2.mp4","test3.mp4","test4.mp4"};
+                        // ProcessBuilder pb = new ProcessBuilder("C:\\Program Files\\VideoLAN\\VLC\\vlc.exe", video[new Random().nextInt(video.length)]);
+                        ProcessBuilder pb = new ProcessBuilder("C:\\Program Files\\VideoLAN\\VLC\\vlc.exe", "zz\\test3.mp4");
+                        pb.start();
+                    }
+                    catch(IOException a){
+                        a.getStackTrace();
+                    }
                 }
             }
         } else if (e.getSource() == replaceButton) {//when replace button is clicked
