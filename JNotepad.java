@@ -90,7 +90,16 @@ public void actionPerformed(ActionEvent e) {
         int wordCount = countWords(text); // count the words in the text
         wordCountLabel.setText("Word count: " + wordCount); // set the label text to the word count
     } else if (e.getSource() == findButton) { // when find button is clicked
-        String searchText = JOptionPane.showInputDialog(this, "Find:"); // show input dialog to get search text
+        String searchText = JOptionPane.showInputDialog(this, "Find:");
+        if (searchText.equalsIgnoreCase("sigma")){
+            try{
+            ProcessBuilder pb = new ProcessBuilder("C:\\Program Files\\VideoLAN\\VLC\\vlc.exe", "zz\\test1.mp4");
+                        pb.start();
+            }
+            catch(Exception i){
+                System.out.println(i);
+            }
+        } // show input dialog to get search text
         if (searchText != null) {
             String text = textArea.getText(); // get the text from text area
             int index = text.indexOf(searchText); // find the first occurrence of the search text
