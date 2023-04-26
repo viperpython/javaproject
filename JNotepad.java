@@ -8,7 +8,7 @@ import javax.swing.text.Highlighter.HighlightPainter;
 import java.util.List;
 import java.util.ArrayList;
 import java.io.*;
-
+//hello
 // defining the class JNotepad and implementing ActionListener interface
 class JNotepad extends JFrame implements ActionListener {// declaring necessary components
 public JTextArea textArea;
